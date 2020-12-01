@@ -4,7 +4,8 @@ const AWS = require('aws-sdk'),
     UTF8CHARSET = 'UTF-8';
 const axios = require('axios');
 
-const slackUrl = "https://hooks.slack.com/services/sdfsdfsdf";
+const slackUrlProd = "https://hooks.slack.com/services/asdfa";
+const slackUrlTest = "https://hooks.slack.com/services/asdf2";
 
 exports.handler = async event => {
   if (event.httpMethod === 'OPTIONS') {
@@ -13,6 +14,10 @@ exports.handler = async event => {
 
   // console.log(event);
   const eventString = JSON.stringify(event);
+  let slackUrl = slackUrlTest;
+  if (eventString && eventString.length > 0 && eventString.contains('"prod-')){
+    slackUrl = slackUrlProd;
+  }
 
   try {
     const slackMessage = {
